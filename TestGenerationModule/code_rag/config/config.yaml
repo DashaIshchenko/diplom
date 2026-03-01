@@ -1,0 +1,457 @@
+# ============================================================================
+# CODE RAG MODULE - CONFIGURATION
+# ============================================================================
+
+# Конфигурация моделей эмбеддингов
+# ============================================================================
+embedding_models:
+  # Nomic Embed Text v1.5 - рекомендуемая модель по умолчанию
+  nomic-embed-text:
+    model_name: "nomic-embed-text"
+    model_path: "nomic-ai/nomic-embed-text-v1.5"
+    dimension: 768
+    max_tokens: 8192
+    device: "cpu"
+    batch_size: 32
+    normalize: true
+    supports_matryoshka: true
+    matryoshka_dimensions: [64, 128, 256, 512, 768]
+    prefixes:
+      search_query: "search_query:"
+      search_document: "search_document:"
+      clustering: "clustering:"
+      classification: "classification:"
+    description: "Nomic Embed Text v1.5 - compact and efficient, best for general use"
+    recommended_for: ["general", "text", "code", "fast_inference"]
+
+  # Nomic Embed Code - специализированная для кода
+  nomic-embed-code:
+    model_name: "nomic-embed-code"
+    model_path: "nomic-ai/nomic-embed-code"
+    dimension: 768
+    max_tokens: 8192
+    device: "cpu"
+    batch_size: 32
+    normalize: true
+    supports_matryoshka: false
+    prefixes:
+      search_query: "search_query:"
+      search_document: "search_document:"
+    description: "Nomic Embed Code - specialized for code embeddings"
+    recommended_for: ["code", "programming", "ast"]
+
+  # Qwen3 Embedding 0.6B - малая модель для CPU
+  qwen3-embedding-0.6b:
+    model_name: "qwen3-embedding-0.6b"
+    model_path: "Qwen/Qwen3-Embedding-0.6B"
+    dimension: 2000
+    max_tokens: 4096
+    device: "cpu"
+    batch_size: 16
+    normalize: true
+    supports_matryoshka: false
+    description: "Qwen3 0.6B - small model, good for CPU"
+    recommended_for: ["multilingual", "cpu", "low_memory"]
+    memory_requirements: "~2.4GB"
+
+  # Qwen3 Embedding 4B - средняя модель
+  qwen3-embedding-4b:
+    model_name: "qwen3-embedding-4b"
+    model_path: "Qwen/Qwen3-Embedding-4B"
+    dimension: 2000
+    max_tokens: 4096
+    device: "cpu"
+    batch_size: 16
+    normalize: true
+    supports_matryoshka: false
+    description: "Qwen3 4B - balanced quality and performance"
+    recommended_for: ["multilingual", "high_quality", "balanced"]
+    memory_requirements: "~16GB"
+
+  # Qwen3 Embedding 8B - большая модель для максимального качества
+  qwen3-embedding-8b:
+    model_name: "qwen3-embedding-8b"
+    model_path: "Qwen/Qwen3-Embedding-8B"
+    dimension: 2000
+    max_tokens: 4096
+    device: "cuda"
+    batch_size: 8
+    normalize: true
+    supports_matryoshka: false
+    description: "Qwen3 8B - highest quality, requires GPU"
+    recommended_for: ["multilingual", "best_quality", "production"]
+    memory_requirements: "~32GB"
+
+remote:
+  base_url: "https://ai.parma.ru/local/"
+  model_name: "nomic-embed-text:latest"
+  dimension: 768
+  max_tokens: 8192
+  batch_size: 32
+  api_key: None
+  timeout: 30
+  normalize: True
+
+# Настройки векторной БД Qdrant
+# ============================================================================
+qdrant:
+  # Предустановленные коллекции
+  collections:
+    # Основная коллекция для кода
+    default:
+      name: "code_embeddings"
+      vector_size: 768
+      distance: "cosine"
+      on_disk: false
+      hnsw_config:
+        m: 16
+        ef_construct: 100
+      optimizers_config:
+        memmap_threshold: 20000
+      payload_indexes:
+        - field: "repository_name"
+          type: "keyword"
+        - field: "type"
+          type: "keyword"
+        - field: "file_path"
+          type: "keyword"
+        - field: "parent"
+          type: "keyword"
+        - field: "is_async"
+          type: "bool"
+        - field: "complexity"
+          type: "integer"
+
+    # Коллекция для production кода
+    production:
+      name: "production_code"
+      vector_size: 768
+      distance: "cosine"
+      on_disk: false
+      hnsw_config:
+        m: 32
+        ef_construct: 200
+      payload_indexes:
+        - field: "repository_name"
+          type: "keyword"
+        - field: "type"
+          type: "keyword"
+        - field: "branch"
+          type: "keyword"
+
+    # Коллекция для тестового кода
+    test:
+      name: "test_code"
+      vector_size: 768
+      distance: "cosine"
+      on_disk: false
+
+    # Коллекция для архива
+    archive:
+      name: "archive_code"
+      vector_size: 768
+      distance: "cosine"
+      on_disk: true
+
+    # Коллекция для Qwen embeddings
+    qwen_collection:
+      name: "code_embeddings_qwen"
+      vector_size: 2000
+      distance: "cosine"
+      on_disk: false
+      hnsw_config:
+        m: 16
+        ef_construct: 100
+
+# Настройки парсера кода
+# ============================================================================
+parser:
+  # Максимальный размер чанка (для nomic-embed-text с 8192 токенами)
+  max_chunk_size: 8192
+
+  # Поддерживаемые языки программирования
+  supported_languages:
+    - python
+    # Будущая поддержка:
+    # - javascript
+    # - typescript
+    # - java
+    # - go
+
+  # Паттерны для исключения
+  excluded_patterns:
+    - "__pycache__"
+    - "*.pyc"
+    - "*.pyo"
+    - "venv"
+    - ".venv"
+    - "env"
+    - ".env"
+    - "node_modules"
+    - ".git"
+    - ".svn"
+    - "build"
+    - "dist"
+    - "*.egg-info"
+
+  # Минимальная сложность для индексации
+  min_complexity: 1
+
+  # Максимальная длина функции в строках
+  max_function_lines: 1000
+
+  # Извлекать ли приватные методы (начинающиеся с _)
+  include_private_methods: true
+
+  # Извлекать ли docstrings
+  extract_docstrings: true
+
+  # Извлекать ли type hints
+  extract_type_hints: true
+
+# Настройки RAG (Retrieval-Augmented Generation)
+# ============================================================================
+rag:
+  # Настройки поиска
+  retrieval:
+    default_top_k: 5
+    max_top_k: 20
+    score_threshold: 0.7
+    expand_query: true
+    use_reranking: false
+
+    # Стратегии поиска
+    search_strategies:
+      - name: "hybrid"
+        description: "Комбинация векторного и метаданных поиска"
+        enabled: true
+      - name: "vector_only"
+        description: "Только векторный поиск"
+        enabled: true
+      - name: "metadata_first"
+        description: "Сначала фильтрация по метаданным"
+        enabled: false
+
+  # Настройки генерации
+  generation:
+    temperature: 0.7
+    max_tokens: 2048
+    top_p: 0.95
+    top_k: 50
+    repetition_penalty: 1.1
+    stop_sequences:
+      - "```
+      - "# End"
+      - "# END OF CODE"
+
+    # Промпты для разных задач
+    prompts:
+      function_generation:
+        system: "You are an expert Python programmer. Generate clean, well-documented code based on the provided examples."
+        include_docstring: true
+        include_type_hints: true
+
+      test_generation:
+        system: "You are an expert in writing unit tests. Generate comprehensive test cases."
+        test_framework: "pytest"
+        coverage_target: "edge_cases"
+
+      code_explanation:
+        system: "You are a helpful coding assistant. Explain code clearly and concisely."
+        detail_level: "medium"
+
+      refactoring:
+        system: "You are an expert in code refactoring. Improve code quality while maintaining functionality."
+        focus_areas: ["readability", "performance", "maintainability"]
+
+# Настройки мониторинга репозиториев
+# ============================================================================
+monitoring:
+  # Интервал проверки изменений (секунды)
+  check_interval: 300  # 5 минут
+
+  # Автоматический запуск при старте
+  auto_start: false
+
+  # Типы файлов для отслеживания
+  tracked_file_types:
+    - ".py"
+    - ".pyi"  # Python stub files
+
+  # Автоматическая переиндексация
+  auto_reindex:
+    enabled: true
+    batch_size: 50
+    delay_seconds: 30  # Задержка перед переиндексацией
+
+  # Уведомления
+  notifications:
+    enabled: false
+    webhook_url: null
+    slack_channel: null
+
+# Настройки провайдеров git репозиториев
+# ============================================================================
+repository_providers:
+  # GitHub
+  github:
+    enabled: true
+    api_url: "https://api.github.com"
+    rate_limit: 5000
+
+  # GitLab
+  gitlab:
+    enabled: true
+    api_url: "https://gitlab.com/api/v4"
+    rate_limit: 2000
+
+  # Azure DevOps
+  azure_devops:
+    enabled: true
+    api_version: "6.0"
+    default_collection: "DefaultCollection"
+    timeout: 30
+    retry_attempts: 3
+
+    # Предустановленные подключения
+    connections:
+      - name: "company_main"
+        base_url: "https://url_company/tfs"
+        collection: "DefaultCollection"
+        enabled: true
+
+      - name: "company_legacy"
+        base_url: "https://legacy.company.com/tfs"
+        collection: "LegacyCollection"
+        enabled: false
+
+# Настройки кэширования
+# ============================================================================
+cache:
+  enabled: true
+  ttl: 3600  # 1 час
+  max_size: 1000  # Максимальное количество элементов
+
+  # Что кэшировать
+  cache_embeddings: true
+  cache_search_results: true
+  cache_parsed_modules: true
+
+  # Redis (опционально, для распределенного кэша)
+  redis:
+    enabled: false
+    host: "localhost"
+    port: 6379
+    db: 0
+    password: null
+
+# Настройки производительности
+# ============================================================================
+performance:
+  # Многопоточность
+  max_workers: 4
+  thread_pool_size: 8
+
+  # Батчинг
+  batch_size: 32
+  embedding_batch_size: 32
+  indexing_batch_size: 100
+
+  # Ограничения
+  max_concurrent_requests: 10
+  request_timeout: 300  # 5 минут
+
+  # Оптимизация памяти
+  memory_limit_mb: 4096
+  gc_enabled: true
+
+# Настройки логирования
+# ============================================================================
+logging:
+  version: 1
+
+  formatters:
+    default:
+      format: "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>"
+
+    json:
+      format: '{"time": "{time}", "level": "{level}", "name": "{name}", "function": "{function}", "line": {line}, "message": "{message}"}'
+
+  handlers:
+    console:
+      sink: "sys.stdout"
+      formatter: "default"
+      level: "INFO"
+
+    file:
+      sink: "./logs/code_rag.log"
+      formatter: "default"
+      level: "DEBUG"
+      rotation: "10 MB"
+      retention: "30 days"
+      compression: "zip"
+
+    error_file:
+      sink: "./logs/error.log"
+      formatter: "json"
+      level: "ERROR"
+      rotation: "10 MB"
+      retention: "90 days"
+
+  loggers:
+    code_rag:
+      level: "DEBUG"
+      handlers: ["console", "file"]
+
+    git:
+      level: "WARNING"
+      handlers: ["file"]
+
+    qdrant_client:
+      level: "INFO"
+      handlers: ["file"]
+
+# Настройки безопасности
+# ============================================================================
+security:
+  # Шифрование токенов в реестре
+  encrypt_tokens: false
+  encryption_key: null
+
+  # Ограничение доступа к API
+  api_key_required: false
+  allowed_ips: []
+
+  # Ограничения по размеру
+  max_file_size_mb: 10
+  max_repository_size_gb: 5
+
+# Метрики и мониторинг
+# ============================================================================
+metrics:
+  enabled: false
+
+  # Prometheus
+  prometheus:
+    enabled: false
+    port: 9090
+    path: "/metrics"
+
+  # Отслеживаемые метрики
+  tracked_metrics:
+    - "embeddings_generated"
+    - "search_queries"
+    - "repositories_indexed"
+    - "code_elements_parsed"
+    - "average_search_time"
+    - "cache_hit_rate"
+
+# Feature flags
+# ============================================================================
+features:
+  dual_embeddings: true
+  query_expansion: true
+  auto_reindexing: true
+  incremental_updates: true
+  distributed_processing: false
+  experimental_features: false

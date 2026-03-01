@@ -1,0 +1,32 @@
+# Core dependencies
+numpy>=1.24.0
+torch>=2.0.0
+transformers>=4.30.0
+sentence-transformers>=2.2.0
+
+# Vector database
+qdrant-client>=1.7.0
+
+# Code parsing
+tree-sitter>=0.21.0
+tree-sitter-python>=0.21.0
+tree-sitter-javascript>=0.21.0
+tree-sitter-typescript>=0.21.0
+tree-sitter-java>=0.21.0
+tree-sitter-c-sharp>=0.21.0
+
+# Git integration
+GitPython>=3.1.40
+
+# API and utilities
+requests>=2.31.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+pyyaml>=6.0
+
+# Logging and monitoring
+loguru>=0.7.0
+tqdm>=4.65.0
+
+# Optional: Qwen API (если используете через API)
+dashscope>=1.14.0
