@@ -15,7 +15,7 @@ import sys
 # Добавляем путь к модулю
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from code_rag.core import (
+from ..code_rag.core import (
     # Parser
     ParserFactory,
     list_supported_languages,
@@ -33,7 +33,7 @@ from code_rag.core import (
     QwenIntegration,
 )
 
-from code_rag.utils import setup_logger, format_duration
+from ..code_rag.utils import setup_logger, format_duration
 import time
 
 
@@ -116,7 +116,7 @@ class Calculator:
         qdrant_client.delete_collection(collection_name)
 
     # Создаем коллекцию
-    from code_rag.core.vector_db import CollectionSchema
+    from ..code_rag.core.vector_db import CollectionSchema
     schema = CollectionSchema(
         collection_name=collection_name,
         vector_size=embedder.embedding_dim

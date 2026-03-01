@@ -21,7 +21,7 @@ import hashlib
 # Добавляем путь к модулю
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from code_rag.core import (
+from ..code_rag.core import (
     CodeEmbedder,
     QdrantClient,
     RAGRetriever,
@@ -30,7 +30,7 @@ from code_rag.core import (
     ProgrammingLanguage,
 )
 
-from code_rag.utils import (
+from ..code_rag.utils import (
     setup_logger,
     format_duration,
 )

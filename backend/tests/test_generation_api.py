@@ -1,7 +1,7 @@
 # tests/test_generation_api.py
 import pytest
 from fastapi.testclient import TestClient
-from code_rag.api.app import app
+from ..code_rag.api.app import app
 from unittest.mock import patch, MagicMock
 
 client = TestClient(app)

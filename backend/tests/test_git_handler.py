@@ -10,8 +10,8 @@ import shutil
 from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime
 
-from code_rag import CommitInfo, ChangeEvent, RepositoryMonitor
-from code_rag.core.git_handler import (
+from ..code_rag import CommitInfo, ChangeEvent, RepositoryMonitor
+from ..code_rag.core.git_handler import (
     RepositoryManager,
     RepositoryInfo,
     RepositoryProvider,

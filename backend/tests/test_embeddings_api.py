@@ -1,7 +1,7 @@
 # tests/test_embeddings_api.py
 import pytest
 from fastapi.testclient import TestClient
-from code_rag.api.app import app
+from ..code_rag.api.app import app
 import numpy as np
 from unittest.mock import patch, MagicMock
 

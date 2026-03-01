@@ -6,8 +6,8 @@ import pytest
 import numpy as np
 from pathlib import Path
 
-from code_rag.core.vector_db import VectorizationPipeline, VectorizationResult
-from code_rag.core.parser import ProgrammingLanguage, CodeElementType
+from ..code_rag.core.vector_db import VectorizationPipeline, VectorizationResult
+from ..code_rag.core.parser import ProgrammingLanguage, CodeElementType
 
 
 # ==================== VectorizationPipeline Tests ====================

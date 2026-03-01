@@ -6,7 +6,7 @@ import pytest
 import numpy as np
 from pathlib import Path
 
-from code_rag.core.embeddings import (
+from ..code_rag.core.embeddings import (
     CodeEmbedder,
     NomicEmbedModel,
     EmbeddingModelFactory,

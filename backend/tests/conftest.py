@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Generator, Dict, Any
 import numpy as np
 
-from code_rag.core import (
+from ..code_rag.core import (
     CodeEmbedder,
     QdrantClient,
     VectorizationPipeline,
@@ -22,7 +22,7 @@ from code_rag.core import (
     OllamaEmbedModel,
 )
 
-from code_rag.core.vector_db import CollectionSchema
+from ..code_rag.core.vector_db import CollectionSchema
 import logging
 logger = logging.getLogger(__name__)
 
@@ -319,7 +319,7 @@ def qwen_integration():
 @pytest.fixture
 def mock_code_elements():
     """Mock code elements для тестов."""
-    from code_rag.core.parser import CodeElement, CodeLocation
+    from ..code_rag.core.parser import CodeElement, CodeLocation
 
     elements = []
 
@@ -380,7 +380,7 @@ def mock_code_elements():
 @pytest.fixture
 def mock_search_results(mock_code_elements):
     """Mock search results для тестов."""
-    from code_rag.core.rag import SearchResult
+    from ..code_rag.core.rag import SearchResult
 
     results = []
     for i, element in enumerate(mock_code_elements):

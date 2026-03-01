@@ -1,9 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
-from code_rag.api.app import app
-from code_rag.core.rag import SearchResult
-from code_rag.core.parser import CodeElement, CodeLocation, ProgrammingLanguage, CodeElementType
-from code_rag.api.routes.search import SearchRequest, SearchResponse, SearchResultResponse, CodeElementResponse
+from ..code_rag.api.app import app
+from ..code_rag.core.rag import SearchResult
+from ..code_rag.core.parser import CodeElement, CodeLocation, ProgrammingLanguage, CodeElementType
+from ..code_rag.api.routes.search import SearchRequest, SearchResponse, SearchResultResponse, CodeElementResponse
 import json
 
 client = TestClient(app)

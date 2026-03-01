@@ -470,7 +470,7 @@ async def update_repository_incremental(
 
         # Удаляем старые версии файлов
         for file_path in changes["deleted"] + changes["changed"]:
-            from code_rag import SearchFilters
+            from ... import SearchFilters
             filters = SearchFilters(
                 repository_name=repository_name,
                 file_path=str(file_path)

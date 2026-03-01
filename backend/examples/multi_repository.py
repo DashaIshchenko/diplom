@@ -18,7 +18,7 @@ from dataclasses import dataclass
 # Добавляем путь к модулю
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from code_rag.core import (
+from ..code_rag.core import (
     CodeEmbedder,
     QdrantClient,
     VectorizationPipeline,
@@ -28,7 +28,7 @@ from code_rag.core import (
     ProgrammingLanguage,
 )
 
-from code_rag.utils import (
+from ..code_rag.utils import (
     setup_logger,
     format_duration,
     format_number,
@@ -345,7 +345,7 @@ class MultiRepositoryManager:
         """Получить список репозиториев в коллекции."""
         self.logger.info("\n📋 Список репозиториев:")
 
-        from code_rag.core.vector_db import SearchFilters
+        from ..code_rag.core.vector_db import SearchFilters
 
         repositories = set()
         offset = None

@@ -5,7 +5,7 @@ Tests for parser module.
 import pytest
 from pathlib import Path
 
-from code_rag.core.parser import (
+from ..code_rag.core.parser import (
     ParserFactory,
     ProgrammingLanguage,
     CodeElementType,

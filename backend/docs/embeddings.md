@@ -82,7 +82,7 @@ class BaseEmbeddingModel(ABC):
 
 **Использование:**
 ```
-from code_rag.core.embeddings import NomicEmbedModel
+from .core.embeddings import NomicEmbedModel
 
 model = NomicEmbedModel(
     model_name="nomic-ai/nomic-embed-text-v1.5",

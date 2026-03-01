@@ -19,7 +19,7 @@ from qdrant_client.models import (
     )
 from sympy.physics.vector.printing import params
 
-from code_rag.core.parser import ProgrammingLanguage, CodeElementType
+from core.parser import ProgrammingLanguage, CodeElementType
 
 
 class VectorDistance(Enum):

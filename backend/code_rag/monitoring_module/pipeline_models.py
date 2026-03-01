@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from datetime import datetime
 from jenkins_client import JenkinsClient
-
+from typing import  Dict, Optional
 
 class PipelineStage(Enum):
     BUILD = "build"

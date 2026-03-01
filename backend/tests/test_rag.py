@@ -5,14 +5,14 @@ Tests for RAG (Retrieval-Augmented Generation) module.
 import pytest
 from pathlib import Path
 
-from code_rag.core.rag import (
+from ..code_rag.core.rag import (
     RAGRetriever,
     SearchResult,
     RAGResponse,
     RAGConfig,
 )
 
-from code_rag.core.parser import (
+from ..code_rag.core.parser import (
     CodeElement,
     CodeLocation,
     CodeElementType,

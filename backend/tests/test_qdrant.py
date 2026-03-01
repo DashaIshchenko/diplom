@@ -7,14 +7,14 @@ import pytest
 import numpy as np
 from pathlib import Path
 
-from code_rag.core.vector_db import (
+from ..code_rag.core.vector_db import (
     QdrantClient,
     CollectionSchema,
     SearchFilters,
     CodePayload,
 )
 
-from code_rag.core.parser import (
+from ..code_rag.core.parser import (
     CodeElement,
     CodeLocation,
     CodeElementType,

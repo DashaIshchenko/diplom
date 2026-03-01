@@ -18,7 +18,7 @@ import shutil
 # Добавляем путь к модулю
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from code_rag.core import (
+from ..code_rag.core import (
     ParserFactory,
     CodeEmbedder,
     QdrantClient,
@@ -31,7 +31,7 @@ from code_rag.core import (
     CodeElementType,
 )
 
-from code_rag.utils import (
+from ..code_rag.utils import (
     setup_logger,
     format_duration,
     format_bytes,

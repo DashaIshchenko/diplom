@@ -15,14 +15,14 @@ __email__ = "your.email@example.com"
 __license__ = "MIT"
 
 # Импорты основных компонентов для удобного доступа
-from code_rag.core.embeddings import (
+from core.embeddings import (
     CodeEmbedder,
     NomicEmbedModel,
     EmbeddingModelFactory,
     EmbeddingModelType,
 )
 
-from code_rag.core.parser import (
+from core.parser import (
     ParserFactory,
     ProgrammingLanguage,
     CodeElementType,
@@ -30,7 +30,7 @@ from code_rag.core.parser import (
     ModuleInfo,
 )
 
-from code_rag.core.vector_db import (
+from core.vector_db import (
     QdrantClient,
     VectorizationPipeline,
     CollectionSchema,
@@ -38,7 +38,7 @@ from code_rag.core.vector_db import (
     CodePayload,
 )
 
-from code_rag.core.rag import (
+from core.rag import (
     RAGRetriever,
     SearchResult,
     RAGConfig,
@@ -47,7 +47,7 @@ from code_rag.core.rag import (
     create_retriever,
 )
 
-from code_rag.core.git_handler import (
+from core.git_handler import (
     RepositoryManager,
     RepositoryInfo,
     RepositoryMonitor,
@@ -56,7 +56,7 @@ from code_rag.core.git_handler import (
 )
 
 # Утилиты
-from code_rag.utils import (
+from utils import (
     setup_logger,
     load_config,
     save_config,

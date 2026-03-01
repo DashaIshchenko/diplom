@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
-from code_rag.api.app import app
-from code_rag.core.vector_db import VectorizationResult
+from ..code_rag.api.app import app
+from ..code_rag.core.vector_db import VectorizationResult
 import json
 
 client = TestClient(app)

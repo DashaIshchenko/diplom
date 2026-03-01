@@ -1,7 +1,7 @@
 # tests/test_health_api.py
 import pytest
 from fastapi.testclient import TestClient
-from code_rag.api.app import app
+from ..code_rag.api.app import app
 import json
 
 client = TestClient(app)
