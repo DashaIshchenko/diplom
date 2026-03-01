@@ -5,6 +5,7 @@ FastAPI приложение.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
+import webbrowser
 
 from .config import get_settings
 from .routes import embeddings, search, indexing, health, generation
@@ -51,6 +52,7 @@ def create_app() -> FastAPI:
     @app.on_event("startup")
     async def startup_event():
         logger.info("Запуск Code RAG API...")
+        webbrowser.open("http://127.0.0.1:8000")
 
     @app.on_event("shutdown")
     async def shutdown_event():

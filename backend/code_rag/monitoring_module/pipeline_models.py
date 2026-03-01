@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from datetime import datetime
+from jenkins_client import JenkinsClient
 
 
 class PipelineStage(Enum):
