@@ -10,6 +10,8 @@ from .config import get_settings
 from .routes import embeddings, search, indexing, health, generation
 from .dependencies import cleanup_dependencies
 
+from monitoring_module.router import router as monitoring_router
+
 logger = logging.getLogger(__name__)
 
 
@@ -43,6 +45,7 @@ def create_app() -> FastAPI:
     app.include_router(search.router)
     app.include_router(indexing.router)
     app.include_router(generation.router)
+    app.include_router(monitoring_router, prefix="/monitor", tags=["Monitoring"])
 
     # События
     @app.on_event("startup")

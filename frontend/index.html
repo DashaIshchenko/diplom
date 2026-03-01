@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Diplom Project</title>
+</head>
+<body>
+
+<h2>Monitoring</h2>
+<button onclick="checkMonitor()">Check</button>
+<pre id="monitor"></pre>
+
+<h2>RAG</h2>
+<textarea id="input"></textarea><br>
+<button onclick="runRag()">Run</button>
+<pre id="rag"></pre>
+
+<script>
+async function checkMonitor() {
+    const res = await fetch("/monitor/status");
+    const data = await res.json();
+    document.getElementById("monitor").innerText =
+        JSON.stringify(data, null, 2);
+}
+
+async function runRag() {
+    const text = document.getElementById("input").value;
+
+    const res = await fetch("/rag/run", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({text})
+    });
+
+    const data = await res.json();
+    document.getElementById("rag").innerText =
+        JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
